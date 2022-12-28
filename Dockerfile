@@ -1,15 +1,12 @@
-ARG BASEIMAGE=python:3.9
-#ARG BASEIMAGE=nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
-
-FROM ${BASEIMAGE}
+FROM python:3.9
 
 ARG DEPSLIST=requirements.txt
-#ARG DEPSLIST=requirements-gpu.txt
 
 ENV PYTHONUNBUFFERED 1
 
-COPY *.pbmm ./
-COPY *.scorer ./
+ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION]/deepspeech-${MODEL_VERSION]-models.pbmm ./
+ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION]/deepspeech-${MODEL_VERSION]-models.scorer ./
+
 COPY setup.py ./
 COPY autosub ./autosub
 
