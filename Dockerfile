@@ -1,11 +1,12 @@
 FROM python:3.9
 
 ARG DEPSLIST=requirements.txt
+ARG MODEL_VERSION=1.0.0
 
 ENV PYTHONUNBUFFERED 1
 
-ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION]/deepspeech-${MODEL_VERSION]-models.pbmm ./
-ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION]/deepspeech-${MODEL_VERSION]-models.scorer ./
+ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION}/deepspeech-${MODEL_VERSION}-models.pbmm ./
+ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION}/deepspeech-${MODEL_VERSION}-models.scorer ./
 
 COPY setup.py ./
 COPY autosub ./autosub
