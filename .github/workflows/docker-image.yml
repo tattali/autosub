@@ -13,4 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag tattali/autosub:${{ github.ref_name }}
+      run: |
+        docker build . --file Dockerfile --tag tattali/autosub:${{ github.ref_name }}
+        docker push tattali/autosub:${{ github.ref_name }}
