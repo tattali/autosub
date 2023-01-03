@@ -1,26 +1,10 @@
-FROM python:3.9
+FROM python:3.10
 
-ARG DEPSLIST=requirements.txt
-ARG MODEL_VERSION=0.9.3
-
-ENV PYTHONUNBUFFERED 1
-
-ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION}/deepspeech-${MODEL_VERSION}-models.pbmm ./
-ADD https://github.com/mozilla/DeepSpeech/releases/download/v${MODEL_VERSION}/deepspeech-${MODEL_VERSION}-models.scorer ./
-
-COPY setup.py ./
-COPY autosub ./autosub
-
-RUN DEBIAN_FRONTEND=noninteractive apt update && \
-    apt -y install ffmpeg libsm6 libxext6 && \
+RUN apt update && \
+    apt install -y ffmpeg \
     apt -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY $DEPSLIST ./requirements.txt
+RUN pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
 
-# make sure pip is up-to-date
-RUN pip install --no-cache-dir -r requirements.txt
-
-RUN mkdir audio output
-
-ENTRYPOINT ["python3", "autosub/main.py"]
+ENTRYPOINT ["whisper"]
